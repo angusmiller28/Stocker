@@ -28,8 +28,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getTitle()){
-
+        switch (item.getTitle().toString()){
+            case PAST_WEEK:
+                chartView.showLast(7);
+                break;
+            case PAST_MONTH:
+                chartView.showLast(30);
+                break;
+            case PAST_YEAR:
+                chartView.showLast(365);
+                break;
+            case ALL_DATA:
+                chartView.showLast();
+                break;
         }
 
         return true;
