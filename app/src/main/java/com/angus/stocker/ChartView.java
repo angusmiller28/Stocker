@@ -20,13 +20,14 @@ public class ChartView extends View {
     float maxPrice, minPrice;
     float width, height;
     Paint mPaint = new Paint();
+    Paint strokePaint = new Paint();
 
     public ChartView(Context context, int resId) {
         super(context);
         InputStream inputStream = getResources().openRawResource(resId);
         data = CSVParser.read(inputStream);
         showLast();
-        mPaint.setColor(Color.GREEN);
+        strokePaint.setColor(Color.WHITE);
     }
 
     @Override
@@ -34,11 +35,23 @@ public class ChartView extends View {
         width = canvas.getWidth();
         height = canvas.getHeight();
         float rectWidth = width/subset.size();
+        strokePaint.setStrokeWidth(rectWidth/8);
         float left = 0;
+        float bottom, top;
 
         for (int i = data.size() - 1; i >= 0; i--){
             StockData stockData = subset.get(i);
-            canvas.drawRect(left, getYPosition(stockData.high), left + rectWidth, getYPosition(stockData.low), mPaint);
+            if (stockData.close >= stockData.open){
+                mPaint.setColor(Color.GREEN);
+                top = stockData.close;
+                bottom = stockData.open;
+            } else {
+                mPaint.setColor(Color.RED);
+                top = stockData.open;
+                bottom = stockData.close;
+            }
+            canvas.drawLine(left + rectWidth / 2, getYPosition(stockData.high), left + rectWidth / 2, getYPosition(stockData.low), strokePaint);
+            canvas.drawRect(left, getYPosition(top), left + rectWidth, getYPosition(bottom), mPaint);
             left += rectWidth;
         }
     }
