@@ -14,16 +14,14 @@ public class MainActivity extends AppCompatActivity {
     static final String PAST_MONTH = "Past Month";
     static final String PAST_YEAR = "Past Year";
     static final String ALL_DATA = "All Data";
-    private ChartView chartView;
+    ChartView chartView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        chartView = new ChartView(this, R.raw.goog);
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_main);
-        relativeLayout.addView(chartView);
+        chartView = (ChartView)findViewById(R.id.chartView);
     }
 
     @Override
